@@ -4,17 +4,17 @@
     "description": "CakePHP Plugin to add PRG filters to controllers and views",
     "keywords": ["php", "filter_results", "cakephp", "filter", "results"],
     "homepage": "https://github.com/gildonei/filter_results",
-    "license": "CC",
+    "license": "CC-BY-3.0",
     "authors": [
         {
             "name": "Pedro Elsner",
             "email": "pedro.elsner@gmail.com"
+        }, {
+            "name": "Gildonei Mendes A. Junior",
+            "email": "gildonei.mendes@gmail.com"
         }
     ],
     "require": {
         "php": ">=5.6"
-    },
-    "autoload": {
-        "psr-0": {"Filterresults\\": "src/"}
     }
 }
