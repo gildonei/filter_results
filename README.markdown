@@ -16,6 +16,10 @@ Compatible with CakePHP 2.3 + Paginate (Component)
 
 # Installation
 
+## Composer
+`composer require gildonei/filter_results:"2.3.x-dev"`
+
+## Manual download
 Download the plugin and place its contents inside `/app/Plugin/FilterResults` or other directory plugins for CakePHP.
 
 ## Activation
