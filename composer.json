@@ -16,5 +16,11 @@
     ],
     "require": {
         "php": ">=5.6"
+    },
+    "config": {
+		"vendor-dir": "Plugin/"
+	}
+    "autoload": {
+        "psr-4": {"FilterResults\\": "/"}
     }
 }
