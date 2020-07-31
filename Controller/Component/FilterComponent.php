@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Component to filter results by fields of the form sent.
  * Compatibility with Paginator Component.
@@ -24,53 +25,54 @@ App::uses('SessionComponent', 'Controller/Component');
  * @link       http://www.github.com/pedroelsner/filter_results/tree/2.1/Controller/Component/FilterComponent.php
  */
 
-class FilterComponent extends Component {
+class FilterComponent extends Component
+{
 
-/**
- * Name of component
- * NEVER CHANGE IT
- *
- * @var string
- * @access private
- * @since 2.1
- */
+    /**
+     * Name of component
+     * NEVER CHANGE IT
+     *
+     * @var string
+     * @access private
+     * @since 2.1
+     */
     private $_name = 'Filter';
 
-/**
- * The instance number of component
- *
- * @var int
- * @access private
- * @since 1.0
- */
+    /**
+     * The instance number of component
+     *
+     * @var int
+     * @access private
+     * @since 1.0
+     */
     private $_instance;
 
-/**
- * Control the number of instances
- *
- * @var int
- * @access public
- * @static
- * @since 1.0
- */
+    /**
+     * Control the number of instances
+     *
+     * @var int
+     * @access public
+     * @static
+     * @since 1.0
+     */
     public static $instances = 0;
 
-/**
- * Receive actual filter field for function self::_makeConditions()
- *
- * @var array
- * @access protected
- * @since 2.0
- */
+    /**
+     * Receive actual filter field for function self::_makeConditions()
+     *
+     * @var array
+     * @access protected
+     * @since 2.0
+     */
     protected $_filter = array();
 
-/**
- * Default settings
- *
- * @var array
- * @access protected
- * @since 1.0
- */
+    /**
+     * Default settings
+     *
+     * @var array
+     * @access protected
+     * @since 1.0
+     */
     protected $_options = array(
         'auto' => array(
             'paginate' => false,
@@ -90,40 +92,41 @@ class FilterComponent extends Component {
         )
     );
 
-/**
- * Save controller's reference
- *
- * @var object
- * @access protected
- * @since 2.0
- */
+    /**
+     * Save controller's reference
+     *
+     * @var object
+     * @access protected
+     * @since 2.0
+     */
     protected $_controller;
 
-/**
- * Save conditions
- *
- * @var array
- * @access protected
- * @since 1.0
- */
+    /**
+     * Save conditions
+     *
+     * @var array
+     * @access protected
+     * @since 1.0
+     */
     protected $_conditions = array();
 
-/**
- * Save $controller->request->params without encrypt
- *
- * @var array
- * @access protected
- * @since 1.0
- */
+    /**
+     * Save $controller->request->params without encrypt
+     *
+     * @var array
+     * @access protected
+     * @since 1.0
+     */
     protected $_params = array();
 
-/**
- * Construct
- *
- * @access public
- * @since 1.0
- */
-    public function __construct(ComponentCollection $collection, $settings = array()) {
+    /**
+     * Construct
+     *
+     * @access public
+     * @since 1.0
+     */
+    public function __construct(ComponentCollection $collection, $settings = array())
+    {
         $this->_options = array_merge($this->_options, $settings);
 
         $this->_instance = ++self::$instances;
@@ -132,13 +135,14 @@ class FilterComponent extends Component {
         }
     }
 
-/**
- * Clone
- *
- * @access public
- * @since 1.0
- */
-    public function __clone() {
+    /**
+     * Clone
+     *
+     * @access public
+     * @since 1.0
+     */
+    public function __clone()
+    {
         $this->_instance = ++self::$instances;
         $this->_options['label']['prefix'] .= sprintf('_%s', $this->_instance);
         $this->_name = sprintf('%s%d', $this->_name, $this->_instance);
@@ -149,14 +153,15 @@ class FilterComponent extends Component {
         $this->controller->set($this->_name, $this);
     }
 
-/**
- * Executed before the Controller::beforeFiler()
- *
- * @param object $controller
- * @access public
- * @since 1.0
- */
-    public function initialize(Controller $controller) {
+    /**
+     * Executed before the Controller::beforeFiler()
+     *
+     * @param object $controller
+     * @access public
+     * @since 1.0
+     */
+    public function initialize(Controller $controller)
+    {
         $this->controller = $controller;
 
         /**
@@ -165,108 +170,147 @@ class FilterComponent extends Component {
         $this->controller->set($this->_name, $this);
     }
 
-/**
- * Executed after the Controller::beforeFiler(), but before execute the requested action
- *
- * @param object $controller
- * @access public
- * @since 1.0
- */
-    public function startup(Controller $controller) {
-
+    /**
+     * Executed after the Controller::beforeFiler(), but before execute the requested action
+     *
+     * @param object $controller
+     * @access public
+     * @since 1.0
+     */
+    public function startup(Controller $controller)
+    {
     }
 
-/**
- * Executed before the Controller::beforeRender()
- *
- * @param object $controller
- * @access public
- * @since 1.0
- */
-    public function beforeRender(Controller $controller) {
-
+    /**
+     * Executed before the Controller::beforeRender()
+     *
+     * @param object $controller
+     * @access public
+     * @since 1.0
+     */
+    public function beforeRender(Controller $controller)
+    {
     }
 
-/**
- * Executed before the Controller::render()
- *
- * @param object $controller
- * @access public
- * @since 1.0
- */
-    public function shutdown(Controller $controller) {
-
+    /**
+     * Executed before the Controller::render()
+     *
+     * @param object $controller
+     * @access public
+     * @since 1.0
+     */
+    public function shutdown(Controller $controller)
+    {
     }
 
-/**
- * Executed before the Controller::redirect()
- *
- * @param object $controller
- * @param array $url
- * @param string $status
- * @param boolean $exit
- * @access public
- * @since 1.0
- */
-    public function beforeRedirect(Controller $controller, $url, $status = null, $exit = true) {
-
+    /**
+     * Executed before the Controller::redirect()
+     *
+     * @param object $controller
+     * @param array $url
+     * @param string $status
+     * @param boolean $exit
+     * @access public
+     * @since 1.0
+     */
+    public function beforeRedirect(Controller $controller, $url, $status = null, $exit = true)
+    {
     }
 
-/**
- * Encripty the string sent
- *
- * @param string $string
- * @return string
- * @access protected
- * @since 1.0
- */
-    protected function _encrypt($string) {
-        return (!is_string($string)) ? '' : base64_encode(base64_encode($string));
+    /**
+     * Dicionário para criptografia de named-params.
+     * Retorna uma array associativo para as substituições necessárias para
+     * manter a sanidade das URLs quando utilizando named-params
+     *
+     * @author Gildonei Mendes Anacleto Junior <junior@lupainformatica.com.br>
+     * @since 2.0
+     * @see FilterResultsComponent::_encrypt()
+     * @see FilterResultsComponent::_decrypt()
+     *
+     * @return array Array associativo para encripção
+     */
+    private function _getEncryptionDict()
+    {
+        // dicionário customizado para substituição de caracteres inválidos
+        if (empty($this->_encryption_replace_dict)) {
+            // substitui percentagem
+            $replaces = array('%' => '§');
+
+            // caracteres reservados pela RFC-2396
+            $reservedUriChars = '; / ? : @ & = + , $';
+
+            // monta dicionário char=>urlencoded
+            foreach (explode(' ', $reservedUriChars) as $char) {
+                $replaces[$char] = urlencode($char);
+            }
+
+            // substitui % por § no dicionário e adiciona ao cache
+            $this->_encryption_replace_dict = str_replace('%', '§', $replaces);
+        }
+
+        // retorna dicionário do cache
+        return $this->_encryption_replace_dict;
     }
 
-/**
- * Decrypty the string sent
- *
- * @param string $string
- * @return string
- * @access protected
- * @since 1.0
- */
-    protected function _decrypt($string) {
-        return (!is_string($string)) ? '' : base64_decode(base64_decode($string));
+    /**
+     * Encripty the string sent
+     *
+     * @param string $string
+     * @return string
+     * @access protected
+     * @since 1.0
+     */
+    protected function _encrypt($string)
+    {
+        return is_string($string) ? strtr($string, $this->_getEncryptionDict()) : '';
     }
 
-/**
- * Give the requested setting
- *
- * @param string $key
- * @param mixed $option
- * @return mixed
- * @access public
- * @since 2.0
- */
-    public function getOption($key, $option = null) {
+    /**
+     * Decrypty the string sent
+     *
+     * @param string $string
+     * @return string
+     * @access protected
+     * @since 1.0
+     */
+    protected function _decrypt($string)
+    {
+        return (!is_string($string)) ? '' : urldecode(str_replace('§', '%', $string));
+    }
+
+    /**
+     * Give the requested setting
+     *
+     * @param string $key
+     * @param mixed $option
+     * @return mixed
+     * @access public
+     * @since 2.0
+     */
+    public function getOption($key, $option = null)
+    {
         if (is_null($option)) {
             return (isset($this->_options[$key]))
-                 ? $this->_options[$key]
-                 : '';
+                ? $this->_options[$key]
+                : '';
         }
         return (isset($this->_options[$key][$option]))
-             ? $this->_options[$key][$option]
-             : '';
+            ? $this->_options[$key][$option]
+            : '';
     }
 
-/**
- * Set the valid value for setting sent
- *
- * @param string $key
- * @param string $option
- * @param mixed  $value
- * @return boolean
- * @access public
- * @since 2.0
- */
-    public function setOption($key, $option, $value) {
+    /**
+     * Set the valid value for setting sent
+     *
+     * @param string $key
+     * @param string $option
+     * @param mixed  $value
+     * @return boolean
+     * @access public
+     * @since 2.0
+     */
+    public function setOption($key, $option, $value)
+    {
         switch ($key) {
             case 'filters':
                 return false;
@@ -283,14 +327,15 @@ class FilterComponent extends Component {
         }
     }
 
-/**
- * Return conditions
- *
- * @return array
- * @access public
- * @since 1.0
- */
-    public function getConditions() {
+    /**
+     * Return conditions
+     *
+     * @return array
+     * @access public
+     * @since 1.0
+     */
+    public function getConditions()
+    {
         if (!is_array($this->_conditions)) {
             return $this->_getConditions();
         }
@@ -299,28 +344,31 @@ class FilterComponent extends Component {
         }
         return $this->_conditions;
     }
-/**
- * @deprecated
- */
-    public function make() {
+
+    /**
+     * @deprecated
+     */
+    public function make()
+    {
         return $this->getConditions();
     }
 
-/**
- * Do everiting to create all conditions
- *
- * @return array
- * @access protected
- * @since 2.1
- */
-    protected function _getConditions() {
+    /**
+     * Do everiting to create all conditions
+     *
+     * @return array
+     * @access protected
+     * @since 2.1
+     */
+    protected function _getConditions()
+    {
 
         /**
          * If have a POST DATA SUBMITED
          */
         if (isset($this->controller->request->data[$this->getOption('label', 'prefix')])) {
             $this->_redirectToNamedUrl();
-            return;
+            return array();
         }
 
         /**
@@ -344,32 +392,36 @@ class FilterComponent extends Component {
             }
             return $this->_conditions;
         }
+
+        return array();
     }
 
-/**
- * Return if has the searched field
- *
- * @param string $field
- * @return boolean
- * @access public
- * @since 1.0
- */
-    public function hasField($field) {
+    /**
+     * Return if has the searched field
+     *
+     * @param string $field
+     * @return boolean
+     * @access public
+     * @since 1.0
+     */
+    public function hasField($field)
+    {
         return $this->_hasField($field, $this->getOption('filters'));
     }
 
-/**
- * Return if has the searched field
- *
- * @param string $field
- * @param type $filters
- * @return boolean
- * @access protected
- * @since 2.0
- */
-    protected function _hasField($field, $filters) {
+    /**
+     * Return if has the searched field
+     *
+     * @param string $field
+     * @param type $filters
+     * @return boolean
+     * @access protected
+     * @since 2.0
+     */
+    protected function _hasField($field, $filters)
+    {
         $hasField = false;
-        foreach($filters as $key => $value) {
+        foreach ($filters as $key => $value) {
             switch (mb_strtolower($key, 'utf-8')) {
                 case 'not':
                 case 'and':
@@ -378,7 +430,7 @@ class FilterComponent extends Component {
                     break;
                 default:
                     if (is_string($value)) {
-                       if ($value == $field) {
+                        if ($value == $field) {
                             $hasField = true;
                         }
                     }
@@ -390,15 +442,16 @@ class FilterComponent extends Component {
         return $hasField;
     }
 
-/**
- * Return array select options of the specified field
- *
- * @param string $field
- * @return mixed
- * @access public
- * @since 1.0
- */
-    public function getFieldSelectOptions($field) {
+    /**
+     * Return array select options of the specified field
+     *
+     * @param string $field
+     * @return mixed
+     * @access public
+     * @since 1.0
+     */
+    public function getFieldSelectOptions($field)
+    {
         $values = array();
         if ($this->hasField($field)) {
             $options = $this->_getFieldOptions($field, $this->getOption('filters'));
@@ -406,25 +459,27 @@ class FilterComponent extends Component {
         }
         return (count($values) == 0) ? null : $values;
     }
-/**
- * @deprecated
- */
-    public function getFieldSelect($field) {
+    /**
+     * @deprecated
+     */
+    public function getFieldSelect($field)
+    {
         return $this->getFieldSelectOptions($field);
     }
 
-/**
- * Return options field
- *
- * @param string $field
- * @param type   $filters
- * @return array
- * @access protected
- * @since 2.0
- */
-    protected function _getFieldOptions($field, $filters) {
+    /**
+     * Return options field
+     *
+     * @param string $field
+     * @param type   $filters
+     * @return array
+     * @access protected
+     * @since 2.0
+     */
+    protected function _getFieldOptions($field, $filters)
+    {
         $return = array();
-        foreach($filters as $key => $value) {
+        foreach ($filters as $key => $value) {
             switch (mb_strtolower($key)) {
                 case 'not':
                 case 'and':
@@ -433,26 +488,33 @@ class FilterComponent extends Component {
                     break;
 
                 default:
-                   if ($key == $field) {
+                    if ($key == $field) {
                         $return = $value;
-                   }
+                    }
             }
         }
         return $return;
     }
 
-/**
- * Search for possible values of specified field
- *
- * @param array $array
- * @return mixed
- * @access public
- * @since 2.0
- */
-    public function _searchFieldValuesSelectOption($options) {
+    /**
+     * Search for possible values of specified field
+     *
+     * @param array $array
+     * @return mixed
+     * @access public
+     * @since 2.0
+     */
+    public function _searchFieldValuesSelectOption($options)
+    {
         if (!is_array($options)) {
             return array();
         }
+
+        // Se operator for booleano
+        if (isset($options['operator']) && in_array($options['operator'], array('bool', 'boolean')) && !isset($options['select'])) {
+            return array('' => __('Todos'), '1' => __('Sim'), '0' => __('Não'));
+        }
+
         $result = array();
         foreach ($options as $key => $value) {
             if (isset($options[$key]['select'])) {
@@ -468,39 +530,45 @@ class FilterComponent extends Component {
         return $result;
     }
 
-/**
- * Composite array values for selection in the form
- *
- * @param string $label
- * @param array  $values
- * @return array
- * @since 2.0
- */
-    public function select($label, $values) {
+    /**
+     * Composite array values for selection in the form
+     *
+     * @param string $label
+     * @param array  $values
+     * @return array
+     * @since 2.0
+     */
+    public function select($label, $values)
+    {
         return array('' => $label) + $values;
     }
-/**
- * @deprecated
- */
-    public function values($label, $values) {
-        return $this->select($label, $values);
-    }
-/**
- * @deprecated
- */
-    public function merge($label, $values) {
+
+    /**
+     * @deprecated
+     */
+    public function values($label, $values)
+    {
         return $this->select($label, $values);
     }
 
-/**
- * Define one or more filters
- *
- * @param array $filters
- * @throws Exception When $filters is not be a array or string
- * @access public
- * @since 1.0
- */
-    public function addFilters($filters = null) {
+    /**
+     * @deprecated
+     */
+    public function merge($label, $values)
+    {
+        return $this->select($label, $values);
+    }
+
+    /**
+     * Define one or more filters
+     *
+     * @param array $filters
+     * @throws Exception When $filters is not be a array or string
+     * @access public
+     * @since 1.0
+     */
+    public function addFilters($filters = null)
+    {
 
         if (!is_array($filters)) {
             if (!is_string($filters)) {
@@ -517,18 +585,19 @@ class FilterComponent extends Component {
         }
     }
 
-/**
- * Make the URL with NAMED fields.
- * Like this: example.com/cake/posts/index/Search.keywords:mykeyword/Search.tag_id:3
- *
- * After, autoredirect to created URL
- *
- * @param array $url
- * @param array $get
- * @access protected
- * @since 2.0
- */
-    protected function _redirectToNamedUrl($url = array(), $get = array()) {
+    /**
+     * Make the URL with NAMED fields.
+     * Like this: example.com/cake/posts/index/Search.keywords:mykeyword/Search.tag_id:3
+     *
+     * After, autoredirect to created URL
+     *
+     * @param array $url
+     * @param array $get
+     * @access protected
+     * @since 2.0
+     */
+    protected function _redirectToNamedUrl($url = array(), $get = array())
+    {
 
         foreach ($this->controller->request['url'] as $key => $value) {
             if ($key != 'url') {
@@ -539,6 +608,12 @@ class FilterComponent extends Component {
             $url['?'] = $get;
         }
         foreach ($this->controller->request->data[$this->getOption('label', 'prefix')] as $key => $value) {
+            // Remove empty filter
+            if ($value === '') {
+				unset($this->controller->request->data [$this->getOption('label', 'prefix')][$key]);
+				continue;
+            }
+
             if (!is_array($value)) {
                 $url[$this->_encrypt(sprintf('%s.%s', $this->getOption('label', 'prefix'), $key))] = $this->_encrypt($value);
             } else {
@@ -572,19 +647,19 @@ class FilterComponent extends Component {
          * and redirect
          */
         $url = array_merge($this->controller->request->params['pass'], $named, $url);
-        $this->controller->redirect($url, null, true);
+        return $this->controller->redirect($url, null, true);
     }
 
-/**
- * Check if the URL contain some NAMED parameter.
- * If found then encrypt, store it and return count of NAMED parameters.
- *
- * @return int
- * @access protected
- * @since 1.0
- */
-    protected function _checkParamsNamed() {
-
+    /**
+     * Check if the URL contain some NAMED parameter.
+     * If found then encrypt, store it and return count of NAMED parameters.
+     *
+     * @return int
+     * @access protected
+     * @since 1.0
+     */
+    protected function _checkParamsNamed()
+    {
         // Decrypt all NAMED parameters
         foreach ($this->controller->request->params['named'] as $key => $value) {
             $this->_params[$this->_decrypt($key)] = $this->_decrypt($value);
@@ -592,30 +667,32 @@ class FilterComponent extends Component {
 
         $count = 0;
         foreach ($this->_params as $key => $value) {
-            if (strpos($key,$this->getOption('label', 'prefix')) > -1) {
+            if (strpos($key, $this->getOption('label', 'prefix')) > -1) {
                 $count++;
             }
         }
         return $count;
     }
-/**
- * @deprecated
- */
-    protected function _check() {
+    /**
+     * @deprecated
+     */
+    protected function _check()
+    {
         return $this->_checkParamsNamed();
     }
 
 
-/**
- * Make all conditions by every filter fields
- *
- * @param array $filters
- * @param array $condition
- * @return array
- * @access protected
- * @since 1.0
- */
-    protected function _makeAllConditions($filters, $condition = array()) {
+    /**
+     * Make all conditions by every filter fields
+     *
+     * @param array $filters
+     * @param array $condition
+     * @return array
+     * @access protected
+     * @since 1.0
+     */
+    protected function _makeAllConditions($filters, $condition = array())
+    {
         foreach ($filters as $key => $value) {
             switch (mb_strtolower($key, 'utf-8')) {
                 case 'not':
@@ -635,26 +712,27 @@ class FilterComponent extends Component {
 
                     /** Fix by: Kristian Tenfen 
                      *  $condition += (is_array($value))
-                     */     
+                     */
                     $condition[] = (is_array($value))
-                         ? $this->_makeConditions($key, $value)
-                         : $this->_makeConditions($value);
+                        ? $this->_makeConditions($key, $value)
+                        : $this->_makeConditions($value);
                     break;
             }
         }
         return $condition;
     }
 
-/**
- * Make conditions for the specified field sent
- *
- * @param array $field
- * @param array $options
- * @param array $condition
- * @access protected
- * @since 1.0
- */
-    protected function _makeConditions($field, $options = null, $condition = array()) {
+    /**
+     * Make conditions for the specified field sent
+     *
+     * @param array $field
+     * @param array $options
+     * @param array $condition
+     * @access protected
+     * @since 1.0
+     */
+    protected function _makeConditions($field, $options = null, $condition = array())
+    {
 
         if (!isset($options)) {
             return $this->_makeConditionsWithoutOptions($field);
@@ -708,11 +786,11 @@ class FilterComponent extends Component {
                         break;
                     }
                     $this->_filter['explode.concatenate'] = (isset($this->_filter['explode']['concatenate']))
-                                                          ? $this->_filter['explode']['concatenate']
-                                                          : $this->getOption('explode', 'concatenate');
+                        ? $this->_filter['explode']['concatenate']
+                        : $this->getOption('explode', 'concatenate');
                     $this->_filter['explode.character'] = (isset($this->_filter['explode']['character']))
-                                                          ? $this->_filter['explode']['character']
-                                                          : $this->getOption('explode', 'character');
+                        ? $this->_filter['explode']['character']
+                        : $this->getOption('explode', 'character');
                     if (!isset($this->_filter['explode'])) {
                         $this->_filter['explode'] = null;
                     } else {
@@ -730,14 +808,74 @@ class FilterComponent extends Component {
                             $condition += $this->_conditionsForOperatorBetween();
                             break;
 
+                        case 'null' :
+                            $condition[] = "{$this->_filter['fieldModel']} IS NULL";
+                            $this->controller->request->data [$this->getOption('label', 'prefix')] [$this->_filter['field']] = $this->_getFieldParams();
+                            break;
+
+						case 'not_null' :
+                            $condition[] = "{$this->_filter['fieldModel']} IS NOT NULL";
+                            $this->controller->request->data [$this->getOption('label', 'prefix')] [$this->_filter['field']] = $this->_getFieldParams();
+                            break;
+
+						case 'date' :
+							$this->_filter['value'] = implode(preg_match("~\/~", $this->_filter['value']) == 0 ? "/" : "-", array_reverse(explode(preg_match("~\/~", $this->_filter['value']) == 0 ? "-" : "/", $this->_filter['value'])));
+							$this->_filter['operator'] = '=';
+							$condition[] = ($this->_isMayExplodeValue()) ? $this->_getFieldConcatenateValue() : $this->_getFieldValue();
+							$this->controller->request->data [$this->getOption('label', 'prefix')] [$this->_filter['field']] = $this->_getFieldParams();
+                            break;
+
+                        case 'exists' :
+                            $condition[] = "EXISTS ({$this->_filter['value']})";
+                            $this->controller->request->data[$this->getOption('label', 'prefix')][$this->_filter['field']] = $this->_getFieldParams();
+                            break;
+
+                        case 'numeric_like' :
+                            $this->_filter['value.before'] = '%';
+                            $this->_filter['value.after'] = '%';
+                            $this->_filter['operator'] = 'LIKE';
+                            $this->_filter['value'] = (isset($this->_filter['value'])) ? preg_replace('/[^0-9]/', '', $this->_filter['value']) : '';
+
+                            $condition[] = ($this->_isMayExplodeValue()) ? $this->_getFieldConcatenateValue() : $this->_getFieldValue();
+                            $this->controller->request->data [$this->getOption('label', 'prefix')] [$this->_filter['field']] = $this->_getFieldParams();
+                            break;
+
+                        case 'numeric' :
+                            $this->_filter['value'] = (isset($this->_filter['value'])) ? (double)preg_replace('/[^0-9]/', '', $this->_filter['value']) : '';
+                            $this->_filter['operator'] = '=';
+                            $condition[] = ($this->_isMayExplodeValue()) ? $this->_getFieldConcatenateValue() : $this->_getFieldValue();
+                            $this->controller->request->data [$this->getOption('label', 'prefix')] [$this->_filter['field']] = $this->_getFieldParams();
+                            break;
+
+                        case 'in' :
+                            $condition[] = "{$this->_filter['fieldModel']} IN (" . str_replace('-', ',', $this->_filter['value']) . ")";
+                            break;
+
+                        case 'notin' :
+                            $condition[] = "{$this->_filter['fieldModel']} NOT IN (" . str_replace('-',',', $this->_filter['value']) . ")";
+                            break;
+
+                        case 'money' :
+                            $this->_filter['value'] = (isset($this->_filter['value'])) ? number_format(preg_replace('/[^0-9]/', '', $this->_filter['value'])/100, 2, '.', '') : '';
+                            $this->_filter['operator'] = '=';
+                            $condition[] = ($this->_isMayExplodeValue()) ? $this->_getFieldConcatenateValue() : $this->_getFieldValue();
+                            $this->controller->request->data [$this->getOption('label', 'prefix')] [$this->_filter['field']] = $this->_getFieldParams();
+                            break;
+
+                        case 'bool' :
+                        case 'boolean' :
+                            $this->_filter['operator'] = '=';
+                            $condition[] = $this->_getFieldValue();
+                            $this->controller->request->data [$this->getOption('label', 'prefix')] [$this->_filter['field']] = $this->_getFieldParams();
+                            break;
                         default:
                             $condition += ($this->_isMayExplodeValue())
-                                         ? $this->_getFieldConcatenateValue()
-                                         : $this->_getFieldValue();
+                                ? $this->_getFieldConcatenateValue()
+                                : $this->_getFieldValue();
 
                             /**
                              * Set form field value
-                            */
+                             */
                             $this->controller->request->data[$this->getOption('label', 'prefix')][$this->_filter['field']] = $this->_getFieldParams();
                             break;
                     }
@@ -747,64 +885,67 @@ class FilterComponent extends Component {
         return $condition;
     }
 
-/**
- * Verify params of field
- *
- * @param string $more
- * @param boolean $between
- * @return boolean
- * @access protected
- * @since 2.0
- */
-protected function _hasFieldParams($more = null, $between = false) {
+    /**
+     * Verify params of field
+     *
+     * @param string $more
+     * @param boolean $between
+     * @return boolean
+     * @access protected
+     * @since 2.0
+     */
+    protected function _hasFieldParams($more = null, $between = false)
+    {
 
-    if ($between) {
-        return isset($this->_params[sprintf('%s.%s-between', $this->getOption('label', 'prefix'), $this->_filter['field'])]);
+        if ($between) {
+            return isset($this->_params[sprintf('%s.%s-between', $this->getOption('label', 'prefix'), $this->_filter['field'])]);
+        }
+
+        if (is_null($more)) {
+            return isset($this->_params[sprintf('%s.%s', $this->getOption('label', 'prefix'), $this->_filter['field'])]);
+        } else {
+            return isset($this->_params[sprintf('%s.%s.%s', $this->getOption('label', 'prefix'), $this->getOption('label', $more), $this->_filter['field'])]);
+        }
     }
 
-    if (is_null($more)) {
-        return isset($this->_params[sprintf('%s.%s', $this->getOption('label', 'prefix'), $this->_filter['field'])]);
-    } else {
-        return isset($this->_params[sprintf('%s.%s.%s', $this->getOption('label', 'prefix'), $this->getOption('label', $more), $this->_filter['field'])]);
+
+    /**
+     * Return params of field
+     *
+     * @param string $more
+     * @param boolean $between
+     * @return array
+     * @access protected
+     * @since 2.0
+     */
+    protected function _getFieldParams($more = null, $between = false)
+    {
+
+        if (!$this->_hasFieldParams($more, $between)) {
+            return '';
+        }
+
+        if ($between) {
+            return $this->_params[sprintf('%s.%s-between', $this->getOption('label', 'prefix'), $this->_filter['field'])];
+        }
+
+        if (is_null($more)) {
+            return $this->_params[sprintf('%s.%s', $this->getOption('label', 'prefix'), $this->_filter['field'])];
+        } else {
+            return $this->_params[sprintf('%s.%s.%s', $this->getOption('label', 'prefix'), $this->getOption('label', $more), $this->_filter['field'])];
+        }
     }
-}
 
-
-/**
- * Return params of field
- *
- * @param string $more
- * @param boolean $between
- * @return array
- * @access protected
- * @since 2.0
- */
-protected function _getFieldParams($more = null, $between = false) {
-
-    if (!$this->_hasFieldParams($more, $between)) {
-        return '';
-    }
-
-    if ($between) {
-        return $this->_params[sprintf('%s.%s-between', $this->getOption('label', 'prefix'), $this->_filter['field'])];
-    }
-
-    if (is_null($more)) {
-        return $this->_params[sprintf('%s.%s', $this->getOption('label', 'prefix'), $this->_filter['field'])];
-    } else {
-        return $this->_params[sprintf('%s.%s.%s', $this->getOption('label', 'prefix'), $this->getOption('label', $more), $this->_filter['field'])];
-    }
-}
-
-/**
- * Make conditions for fileds without specified parameters
- *
- * @param array $field
- * @return array
- * @access protected
- * @since 2.0
- */
-    protected function _makeConditionsWithoutOptions($field) {
+    /**
+     * Make conditions for fileds without specified parameters
+     *
+     * @param array $field
+     * @return array
+     * @access protected
+     * @since 2.0
+     */
+    protected function _makeConditionsWithoutOptions($field)
+    {
 
         $this->_filter = array();
         $this->_filter['field'] = $field;
@@ -822,8 +963,8 @@ protected function _getFieldParams($more = null, $between = false) {
         $this->_filter['fieldModel'] = $this->_getFieldParams('fieldModel');
         $this->_filter['value']      = $this->_getFieldParams();
         $this->_filter['operator'] = ($this->_hasFieldParams('operator'))
-                                   ? $this->_getFieldParams('operator')
-                                   : 'like';
+            ? $this->_getFieldParams('operator')
+            : 'like';
         $this->_filter['explode'] = true;
         $this->_filter['explode.concatenate'] = $this->getOption('explode', 'concatenate');
         $this->_filter['explode.character']   = $this->getOption('explode', 'character');
@@ -831,7 +972,7 @@ protected function _getFieldParams($more = null, $between = false) {
         /**
          * Define operator
          */
-        switch(mb_strtolower($this->_filter['operator'], 'utf-8')) {
+        switch (mb_strtolower($this->_filter['operator'], 'utf-8')) {
             case 'like':
             case 'not like':
                 $this->_filter['value.before'] = '%';
@@ -857,8 +998,8 @@ protected function _getFieldParams($more = null, $between = false) {
         }
 
         $condition[] = ($this->_isMayExplodeValue())
-                     ? $this->_getFieldConcatenateValue()
-                     : $this->_getFieldValue();
+            ? $this->_getFieldConcatenateValue()
+            : $this->_getFieldValue();
 
         /**
          * Set form field value
@@ -870,13 +1011,14 @@ protected function _getFieldParams($more = null, $between = false) {
         return $condition;
     }
 
-/**
- * Make the condition when operator='between'
- *
- * @return array
- * @access protected
- */
-    protected function _conditionsForOperatorBetween() {
+    /**
+     * Make the condition when operator='between'
+     *
+     * @return array
+     * @access protected
+     */
+    protected function _conditionsForOperatorBetween()
+    {
 
         if (count($this->_filter) == 0) {
             return array();
@@ -885,15 +1027,14 @@ protected function _getFieldParams($more = null, $between = false) {
         /**
          * Verifica a existencia dos dois parâmetros
          */
-        if (!$this->_hasFieldParams() || !$this->_hasFieldParams(null, true))
-        {
+        if (!$this->_hasFieldParams() || !$this->_hasFieldParams(null, true)) {
 
             if ($this->_hasFieldParams()) {
                 $$this->controller->request->data[$this->getOption('label', 'prefix')][$this->_filter['field']] = $this->_getFieldParams();
             }
 
             if ($this->_hasFieldParams(null, true)) {
-                $$this->controller->request->data[$this->getOption('label', 'prefix')][$this->_filter['field'].'-between'] = $this->_getFieldParams(null, true);
+                $$this->controller->request->data[$this->getOption('label', 'prefix')][$this->_filter['field'] . '-between'] = $this->_getFieldParams(null, true);
             }
 
             return array();
@@ -918,20 +1059,21 @@ protected function _getFieldParams($more = null, $between = false) {
         $condition = array(sprintf('%s %s', $this->_filter['fieldModel'], $this->_filter['operator']) => $this->_filter['value']);
 
         $this->controller->request->data[$this->getOption('label', 'prefix')][$this->_filter['field']]            = $this->_getFieldParams();
-        $this->controller->request->data[$this->getOption('label', 'prefix')][$this->_filter['field'].'-between'] = $this->_getFieldParams(null, true);
+        $this->controller->request->data[$this->getOption('label', 'prefix')][$this->_filter['field'] . '-between'] = $this->_getFieldParams(null, true);
 
         return $condition;
     }
 
-/**
- * Return the default value of the specified option
- *
- * @param string $option
- * @return string
- * @access protected
- * @since 2.0
- */
-    protected function _getFieldDefaultValueOptions($option) {
+    /**
+     * Return the default value of the specified option
+     *
+     * @param string $option
+     * @return string
+     * @access protected
+     * @since 2.0
+     */
+    protected function _getFieldDefaultValueOptions($option)
+    {
         $default = null;
         if (isset($this->_filter['value'])) {
             if (is_array($this->_filter['value'])) {
@@ -954,21 +1096,23 @@ protected function _getFieldParams($more = null, $between = false) {
         }
         return $default;
     }
-/**
- * @deprecated
- */
-    protected function _defaultOptionsValue($option) {
+    /**
+     * @deprecated
+     */
+    protected function _defaultOptionsValue($option)
+    {
         return $this->_getFieldDefaultValueOptions($option);
     }
 
-/**
- * Verify the permission to explode value
- *
- * @return boolean
- * @access protected
- * @since 2.0
- */
-    protected function _isMayExplodeValue() {
+    /**
+     * Verify the permission to explode value
+     *
+     * @return boolean
+     * @access protected
+     * @since 2.0
+     */
+    protected function _isMayExplodeValue()
+    {
         if (count($this->_filter) == 0) {
             return false;
         }
@@ -976,7 +1120,7 @@ protected function _getFieldParams($more = null, $between = false) {
             switch (mb_strtolower($this->_filter['operator'], 'utf-8')) {
                 case 'like':
                 case 'not like':
-                    return $this->getOption('auto' ,'explode');
+                    return $this->getOption('auto', 'explode');
                     break;
 
                 default:
@@ -989,14 +1133,15 @@ protected function _getFieldParams($more = null, $between = false) {
         return false;
     }
 
-/**
- * Composite value of condition
- *
- * @return array
- * @access protected
- * @since 2.0
- */
-    protected function _getFieldValue() {
+    /**
+     * Composite value of condition
+     *
+     * @return array
+     * @access protected
+     * @since 2.0
+     */
+    protected function _getFieldValue()
+    {
         if (count($this->_filter) == 0) {
             return array();
         }
@@ -1005,27 +1150,29 @@ protected function _getFieldParams($more = null, $between = false) {
             sprintf('%s%s%s', $this->_filter['value.before'], $this->_filter['value'], $this->_filter['value.after'])
         );
     }
-/**
- * @deprecated
- */
-    protected function _value() {
+    /**
+     * @deprecated
+     */
+    protected function _value()
+    {
         return $this->_getFieldValue();
     }
 
-/**
- * Explode and concatenate the values
- *
- * @return array
- * @access protected
- * @since 2.0
- */
-    protected function _getFieldConcatenateValue() {
+    /**
+     * Explode and concatenate the values
+     *
+     * @return array
+     * @access protected
+     * @since 2.0
+     */
+    protected function _getFieldConcatenateValue()
+    {
         $condition = array();
         $values = explode($this->_filter['explode.character'], $this->_filter['value']);
         if (count($values) > 1) {
             foreach ($values as $k => $v) {
                 $condition[$this->_filter['explode.concatenate']][$k] = array(
-                    sprintf('%s %s' , $this->_filter['fieldModel'], $this->_filter['operator']) =>
+                    sprintf('%s %s', $this->_filter['fieldModel'], $this->_filter['operator']) =>
                     sprintf('%s%s%s', $this->_filter['value.before'], $v, $this->_filter['value.after'])
                 );
             }
@@ -1034,40 +1181,43 @@ protected function _getFieldParams($more = null, $between = false) {
         }
         return $condition;
     }
-/**
- * @deprecated
- */
-    protected function _valueConcatenate() {
+    /**
+     * @deprecated
+     */
+    protected function _valueConcatenate()
+    {
         return $this->_getFieldConcatenateValue();
     }
 
-/**
- * Get the fields of model automaticaly
- *
- * @return array
- * @access public
- * @since 1.0
- */
-    public function getModelFields() {
+    /**
+     * Get the fields of model automaticaly
+     *
+     * @return array
+     * @access public
+     * @since 1.0
+     */
+    public function getModelFields()
+    {
         if (!isset($this->controller->uses[0])) {
             return array();
         }
         $fields = array();
-        foreach($this->controller->{$this->controller->uses[0]}->_schema as $key => $value) {
+        foreach ($this->controller->{$this->controller->uses[0]}->_schema as $key => $value) {
             $fields[sprintf('%s.%s', $this->controller->uses[0], $key)] = $key;
         }
         return $fields;
     }
 
-/**
- * getFieldOperator
- *
- * @param string $fieldName
- * @return string
- * @access public
- * @since 1.1
- */
-    public function getFieldOperator($fieldName) {
+    /**
+     * getFieldOperator
+     *
+     * @param string $fieldName
+     * @return string
+     * @access public
+     * @since 1.1
+     */
+    public function getFieldOperator($fieldName)
+    {
         $options = $this->_getFieldOptions($fieldName, $this->getOption('filters'));
         if (is_array($options)) {
             foreach ($options as $key => $value) {
@@ -1079,18 +1229,19 @@ protected function _getFieldParams($more = null, $between = false) {
         return '';
     }
 
-/**
- * Define paginator's options for CakePHP2.2+
- *
- * @param mixed $option
- * @param mixed $value
- * @access public
- * @since 2.0
- */
-    public function setPaginate($option, $value = null) {
+    /**
+     * Define paginator's options for CakePHP2.2+
+     *
+     * @param mixed $option
+     * @param mixed $value
+     * @access public
+     * @since 2.0
+     */
+    public function setPaginate($option, $value = null)
+    {
         $setting = (is_array($option))
-                 ? $option
-                 : array($option => $value);
+            ? $option
+            : array($option => $value);
         if (!(is_array($setting))) {
             return;
         }
@@ -1099,5 +1250,4 @@ protected function _getFieldParams($more = null, $between = false) {
             $setting
         );
     }
-
 }
