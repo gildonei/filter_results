@@ -647,6 +647,13 @@ class FilterComponent extends Component
          * and redirect
          */
         $url = array_merge($this->controller->request->params['pass'], $named, $url);
+        if (empty($url)) {
+            $url = [
+                'controller' => $this->controller->request->params['controller'],
+                'action' => $this->controller->request->params['action'],
+            ];
+        }
+
         return $this->controller->redirect($url, null, true);
     }
 
