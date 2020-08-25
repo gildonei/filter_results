@@ -262,6 +262,11 @@ class FilterComponent extends Component
      */
     protected function _encrypt($string)
     {
+        // formato alternativo para datas
+        if (preg_match('/^[0-9]+\/[0-9]+\/[0-9]+$/', $string)) {
+            return str_replace(['/', '.'], '-', $string);
+        }
+
         return is_string($string) ? strtr($string, $this->_getEncryptionDict()) : '';
     }
 
@@ -613,7 +618,6 @@ class FilterComponent extends Component
 				unset($this->controller->request->data [$this->getOption('label', 'prefix')][$key]);
 				continue;
             }
-
             if (!is_array($value)) {
                 $url[$this->_encrypt(sprintf('%s.%s', $this->getOption('label', 'prefix'), $key))] = $this->_encrypt($value);
             } else {
@@ -876,10 +880,13 @@ class FilterComponent extends Component
                             $this->controller->request->data [$this->getOption('label', 'prefix')] [$this->_filter['field']] = $this->_getFieldParams();
                             break;
                         default:
+                            if (isset($options[key($options)]['date']) && $options[key($options)]['date']) {
+                                $this->_filter['value'] = implode('-', array_reverse(explode('-', $this->_filter['value'])));
+                            }
+
                             $condition += ($this->_isMayExplodeValue())
                                 ? $this->_getFieldConcatenateValue()
                                 : $this->_getFieldValue();
-
                             /**
                              * Set form field value
                              */
